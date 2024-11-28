@@ -31,17 +31,8 @@ class main_listener implements EventSubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'core.user_setup'				   => 'load_language',
 			'core.search_auth_checks_override' => 'search_auth',
 		];
-	}
-
-	/**
-	 * Load common language files during user setup
-	 */
-	public function load_language(): void
-	{
-		$this->language->add_lang('common', 'dimetrodon/loginsearch');
 	}
 
 	/**
@@ -60,6 +51,8 @@ class main_listener implements EventSubscriberInterface
 				$this->twig->assign_var('S_NO_SEARCH', true);
 				trigger_error('NO_SEARCH');
 			}
+
+			$this->language->add_lang('common', 'dimetrodon/loginsearch');
 
 			// If the user is a guest and cannot search, they will recieve a login page.
 			login_box('', $this->language->lang('LOGIN_EXPLAIN_SEARCH'));
